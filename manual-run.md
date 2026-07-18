@@ -11,11 +11,29 @@ is read-only against X — nothing here can post._
 ## 0. Prerequisites (once, and whenever auth breaks)
 
 ```bash
-npm run auth:check          # is the cookie still valid? (never prints the values)
+git config core.hooksPath .githooks   # once PER CLONE — see below
+npm run auth:check                    # is the cookie still valid? (never prints the values)
 ```
 
-If it fails: log into x.com in your browser → DevTools → Application → Cookies →
+If `auth:check` fails: log into x.com in your browser → DevTools → Application → Cookies →
 copy `auth_token` and `ct0` into `.env` (`TWITTER_AUTH_TOKEN`, `TWITTER_CT0`). Re-run the check.
+
+**The hooks line matters and is easy to miss.** It enables `.githooks/pre-commit`, which blocks
+committing a `TWITTER_*` value, a 40+ character hex string, or `.env` itself. Git hooks are **not
+carried by a clone**, so this is per machine — a fresh clone has no guard until you run it.
+
+This hook is the *only* thing protecting the cookie. GitHub's secret scanning does not help here:
+both `auth_token` (~40 hex) and `ct0` (~160 hex) are bare hex with no provider prefix, so they
+match none of its patterns. Verify the guard is live before trusting it:
+
+```bash
+git config core.hooksPath              # must print .githooks
+```
+
+If a commit is ever blocked wrongly (a full 40-char git SHA in a doc will do it), override with
+`git commit --no-verify` — but read the diff first. If a real cookie *does* reach a commit, treat
+it as compromised: log out of x.com to invalidate the token, then get a fresh one. Amending the
+commit is not enough once it has been pushed.
 
 ---
 
