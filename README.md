@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.png" alt="xCurate Banner" width="100%">
+</p>
+
 # xcurate
 
 A terminal-first tool to **read** X/Twitter, curate the tweets worth replying to, and draft
