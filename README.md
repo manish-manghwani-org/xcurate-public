@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/banner.png" alt="xCurate Banner" width="100%">
+  <img src="docs/banner.webp" alt="xCurate Banner" width="100%">
 </p>
 
 # xcurate
