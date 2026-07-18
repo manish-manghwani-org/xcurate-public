@@ -1,0 +1,15 @@
+[Unit]
+Description=xcurate hourly timer (wakes the machine from suspend to run the ingest)
+
+[Timer]
+OnCalendar=hourly
+# Schedule-level jitter: fire up to 5 minutes past the hour, never like clockwork.
+RandomizedDelaySec=300
+# Wake the machine from suspend when the timer elapses (hibernate/poweroff wake
+# is handled by the RTC alarm that xcurate-hourly.sh arms after every run).
+WakeSystem=true
+# If a firing was missed (machine fully off, RTC wake unsupported), run at boot.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

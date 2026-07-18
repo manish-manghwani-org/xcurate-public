@@ -1,0 +1,12 @@
+[Unit]
+Description=xcurate hourly ingest (read-only against X) with safe auto-sleep
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+# Template unit — edit the two absolute paths below to match where you cloned the repo,
+# then install per manual-run.md. systemd requires absolute paths here (no $HOME).
+Type=oneshot
+EnvironmentFile=-/path/to/xcurate/ops/schedule.env
+ExecStart=/path/to/xcurate/ops/xcurate-hourly.sh
+TimeoutStartSec=20min

@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "buckets": [
+    {
+      "name": "professional",
+      "definition": "Work and building: code, software, dev tools, infrastructure, AI/ML models and agents, startups, product, growth, markets, investing, economy, crypto, jobs, hiring, and workplace/career.",
+      "replyStance": "Engage as a peer: add a concrete experience, a gotcha, or a sharper question — never generic agreement. Only where I have real hands-on ground; skip hype. Never investment advice or predictions.",
+      "rankMultiplier": 1.0
+    },
+    {
+      "name": "personal-social",
+      "definition": "Human, everyday, and cultural life: the author's own daily life, family, food, outings and milestones; health, fitness and wellness; memes, jokes and banter; and movies, music, books, sports and pop culture.",
+      "replyStance": "Warm, specific, human. Celebrate wins, share genuine reactions, be light back when it's a joke — never unsolicited advice, never prescribe. Only reply if I add warmth or something actually funny.",
+      "rankMultiplier": 1.0
+    },
+    {
+      "name": "ideas",
+      "definition": "Ideas worth thinking about: research, science, space, psychology, history and explainers; and faith, meditation, mindset, meaning and philosophical reflection.",
+      "replyStance": "Curious questions beat hot takes; engage the idea and amplify what is genuinely interesting. Respectful of faith — engage the thought, never debate someone's beliefs.",
+      "rankMultiplier": 1.0
+    },
+    {
+      "name": "civic",
+      "definition": "Public affairs: elections, policy, government and partisan takes; activism, justice and societal causes; and non-partisan breaking news and current events.",
+      "replyStance": "Default skip unless I genuinely know the topic and have real substance to add. Never dunk, never pile on, never performative agreement.",
+      "rankMultiplier": 0.8
+    },
+    {
+      "name": "other",
+      "definition": "Mandatory fallback: thin @-replies, greetings, conversational fragments, and anything topicless or that fits no bucket above. Use when unsure — never force-fit.",
+      "replyStance": "Judge on its own merits; if it is unclear why it would deserve a reply, skip.",
+      "rankMultiplier": 1.0
+    }
+  ]
+}

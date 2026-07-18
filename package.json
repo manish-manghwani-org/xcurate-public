@@ -1,0 +1,46 @@
+{
+  "name": "xcurate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Terminal-first tool to read X read-only, curate tweets worth replying to, and draft replies in my voice.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "ingest": "tsx src/cli.ts ingest",
+    "candidates": "tsx src/cli.ts candidates",
+    "daily": "npm run ingest && npm run candidates",
+    "hourly": "tsx src/cli.ts ingest --feed-only && tsx src/cli.ts candidates",
+    "cron:status": "tsx src/cli.ts cron status",
+    "cron:catchup": "tsx src/cli.ts cron catchup",
+    "calibrate:fetch": "tsx src/cli.ts calibrate-fetch",
+    "mark-posted": "tsx src/cli.ts mark-posted",
+    "skip": "tsx src/cli.ts skip",
+    "accounts:add": "tsx src/cli.ts accounts add",
+    "accounts:list": "tsx src/cli.ts accounts list",
+    "auth:check": "tsx src/cli.ts auth check",
+    "buckets:export": "tsx src/cli.ts buckets export",
+    "buckets:classify": "tsx src/cli.ts buckets classify",
+    "buckets:apply": "tsx src/cli.ts buckets apply",
+    "buckets:eval": "tsx src/cli.ts buckets eval",
+    "classify:all": "npm run buckets:classify && npm run buckets:apply",
+    "stats": "tsx src/cli.ts stats",
+    "help": "tsx src/cli.ts commands",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@steipete/bird": "^0.8.0",
+    "better-sqlite3": "^12.4.1",
+    "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
+    "pino": "^10.0.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.10.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

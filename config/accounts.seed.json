@@ -1,0 +1,4 @@
+[
+  { "handle": "example_account_1", "weight": 5 },
+  { "handle": "example_account_2", "weight": 5 }
+]

@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "description": "Deterministic map from the v0.1 16-bucket taxonomy to the v0.2 coarse taxonomy (PLANNING.md §2.7.1). Used to fold existing gold labels (data/eval-gold.json) and DB labels through to coarse buckets without re-labeling. `creator-promo` is intentionally NOT mapped: promo is an intent, not a topic, so it was dropped as a bucket (S2c) — its gold items are listed in `exclude` and dropped from the folded eval set because they have no correct topic-bucket answer. Live promo tweets get classified by their surface topic instead.",
+  "map": {
+    "tech-engineering": "professional",
+    "ai-ml": "professional",
+    "startups-product": "professional",
+    "business-finance": "professional",
+    "career-work": "professional",
+    "personal-life": "personal-social",
+    "health-fitness": "personal-social",
+    "humor-banter": "personal-social",
+    "culture-entertainment": "personal-social",
+    "science-ideas": "ideas",
+    "spiritual-philosophy": "ideas",
+    "politics-governance": "civic",
+    "social-causes": "civic",
+    "news-events": "civic",
+    "other": "other"
+  },
+  "exclude": ["creator-promo"]
+}

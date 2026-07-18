@@ -1,0 +1,41 @@
+{
+  "windowHours": 24,
+  "candidateLimit": 15,
+  "maxReplyChars": 280,
+  "ingest": {
+    "feedTypes": ["following"],
+    "maxPerFeed": 100,
+    "jitterMinSeconds": 20,
+    "jitterMaxSeconds": 90,
+    "backoffBaseSeconds": 30
+  },
+  "weights": {
+    "wRecency": 1.0,
+    "wAuthor": 1.4,
+    "wEngagement": 0.8,
+    "wPenalty": 0.6
+  },
+  "decay": "linear",
+  "mutedHandles": [],
+  "buckets": {
+    "maxPerBucket": 4,
+    "profileWindowDays": 90,
+    "profileMaxTweets": 200,
+    "minProfileTweets": 3,
+    "suggestMinSamples": 5,
+    "exportLimit": 300
+  },
+  "calibrate": {
+    "buckets": { "calibrateWeeks": 4, "validateWeeks": 12, "testWeeks": 26 },
+    "maxRequests": 40,
+    "engagementWeighting": true
+  },
+  "classify": {
+    "provider": "ollama",
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "qwen2.5:3b-instruct",
+    "concurrency": 1,
+    "timeoutMs": 60000,
+    "maxRetries": 2
+  }
+}
