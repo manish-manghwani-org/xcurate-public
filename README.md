@@ -29,6 +29,9 @@ to you, assisted by [Claude Code](https://claude.com/claude-code) slash commands
   ones, and drafts replies into `digest/YYYY-MM-DD.md`. `/calibrate-voice` proposes an improved
   voice profile from your own past replies; `/classify-tweets` backfills topic labels.
 
+📖 **[docs/architecture.md](docs/architecture.md)** walks through the whole system with diagrams —
+the read-only guarantee, the ranking maths, the data model, and why the work is split this way.
+
 ## Setup
 
 Requires **Node ≥ 22**. Optional: [Ollama](https://ollama.com) with a small instruct model
