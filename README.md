@@ -37,6 +37,10 @@ Requires **Node ≥ 22**. Optional: [Ollama](https://ollama.com) with a small in
 ```bash
 npm install
 
+# 0. Enable the local guard that blocks committing your X cookie.
+#    Git hooks aren't shared through a clone, so this is once per machine.
+git config core.hooksPath .githooks
+
 # 1. Provide your own X session cookie (kept local, gitignored):
 cp .env.example .env
 #    then fill TWITTER_AUTH_TOKEN and TWITTER_CT0 from your logged-in x.com browser session

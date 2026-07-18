@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only by default. PRs from forks get no write access and no secrets,
+# so a malicious PR cannot exfiltrate anything or push to the repo.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: typecheck + read-only invariant
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # The §2 guarantee, enforced rather than promised.
+      - name: Read-only invariant
+        run: node scripts/check-readonly.mjs
+
+      # Belt and braces: nothing secret-shaped should ever be tracked.
+      - name: No committed secrets
+        run: |
+          if git ls-files --error-unmatch .env 2>/dev/null; then
+            echo "::error::.env is tracked — it must stay gitignored."
+            exit 1
+          fi
+          if git grep -nE '^TWITTER_(AUTH_TOKEN|CT0)=.+' -- ':!.env.example'; then
+            echo "::error::A Twitter credential appears to be committed."
+            exit 1
+          fi
+          echo "✓ no tracked credentials"

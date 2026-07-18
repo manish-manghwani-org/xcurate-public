@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Local guard against committing the X session cookie.
+#
+# Why this exists rather than relying on GitHub push protection: TWITTER_AUTH_TOKEN
+# (~40 hex chars) and TWITTER_CT0 (~160 hex) are generic hex with no provider
+# prefix, so GitHub's secret scanning does NOT recognise them. This hook is the
+# only thing that catches them, and it runs before the data leaves the machine —
+# the last point at which a leak is still fully recallable.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+# Override a false positive:  git commit --no-verify
+set -uo pipefail
+
+fail=0
+note() { echo "  ✗ $1" >&2; fail=1; }
+
+# Staged additions only — we don't care about context lines or deletions.
+added=$(git diff --cached --diff-filter=ACM -U0 | grep '^+' | grep -v '^+++' || true)
+[ -z "$added" ] && exit 0
+
+# 1. A credential env var with an actual value on it.
+if echo "$added" | grep -qE 'TWITTER_(AUTH_TOKEN|CT0)[[:space:]]*=[[:space:]]*[^[:space:]"'"'"']+'; then
+  note "a TWITTER_AUTH_TOKEN / TWITTER_CT0 assignment has a non-empty value"
+fi
+
+# 2. Long bare hex runs — the shape of both cookie values. Lockfile integrity
+#    hashes and vendored code are excluded; full git SHAs may trip this, which
+#    is what --no-verify is for.
+hexfiles=$(git diff --cached --name-only --diff-filter=ACM \
+  | grep -vE '(^|/)(package-lock\.json|node_modules/)' || true)
+for f in $hexfiles; do
+  [ -f "$f" ] || continue
+  if git diff --cached -U0 -- "$f" | grep '^+' | grep -v '^+++' \
+     | grep -qE '[A-Fa-f0-9]{40,}'; then
+    note "$f contains a 40+ character hex string (cookie-shaped)"
+  fi
+done
+
+# 3. .env itself, however it got staged.
+if git diff --cached --name-only | grep -qE '(^|/)\.env$'; then
+  note ".env is staged — it must never be committed"
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "" >&2
+  echo "  COMMIT BLOCKED — possible credential in staged changes" >&2
+  echo "" >&2
+  echo "  Your X cookie is a live account credential. Once pushed to a public" >&2
+  echo "  repo it must be treated as compromised: rotate it by logging out of" >&2
+  echo "  x.com (which invalidates the token) rather than just amending." >&2
+  echo "" >&2
+  echo "  If this is a false positive:  git commit --no-verify" >&2
+  echo "" >&2
+  exit 1
+fi
+exit 0
